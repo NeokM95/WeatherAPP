@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 
-import kelvinToCelsius from '../../helpers/kelvinToCelsius';
+import { TempContext } from '../../context/TempProvider';
 import createDateString from "../../helpers/createDateString";
 
 import './ForecastTab.css';
 
+
 // const apiKey = "914980b7d82b6962c87c98bb639aeed3"
 
 function ForecastTab( { coordinates } ) {
+
+    const { kelvinToMetric } = useContext( TempContext )
 
     const [ forecasts, setForecasts ] = useState( [] )
     const [ error, toggleError ] = useState( false )
@@ -26,12 +29,12 @@ function ForecastTab( { coordinates } ) {
             try {
                 const result = await axios.get(
                     `https://api.openweathermap.org/data/2.5/onecall?lat=${ coordinates.lat }&lon=${ coordinates?.lon }&exclude=minutely,current,hourly&appid=${ process.env.REACT_APP_API_KEY }&lang=nl`
-                ,{
+                    , {
                         cancelToken: source.token
-                    })
+                    } )
                 // setTimeout( () =>
-                    toggleLoading( false )
-                    // , 300 )
+                toggleLoading( false )
+                // , 300 )
 
                 console.log( "Five-day Forecast", result.data.daily.slice( 1, 6 ) )
                 setForecasts( result.data.daily.slice( 1, 6 ) )
@@ -60,8 +63,8 @@ function ForecastTab( { coordinates } ) {
             </span>
             }
             { error === true && <span>Er is iets misgegaan met het ophalen van de data</span> }
-            { loading && <span>Loading...</span>}
-            {forecasts.map( ( day ) => {
+            { loading && <span>Loading...</span> }
+            { forecasts.map( ( day ) => {
                 return (
                     <article className="forecast-day" key={ day.dt }>
                         <p className="day-description">
@@ -69,7 +72,7 @@ function ForecastTab( { coordinates } ) {
                         </p>
                         <section className="forecast-weather">
                             <span>
-                              { kelvinToCelsius( day.temp.day ) }
+                              { kelvinToMetric( day.temp.day ) }
                             </span>
                             <span className="weather-description">
                               { day.weather[0].description }

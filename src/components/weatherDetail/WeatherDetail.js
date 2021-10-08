@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import './WeatherDetail.css';
-import iconMapper from "../../helpers/iconMapper";
 
+import { TempContext } from '../../context/TempProvider';
+import iconMapper from "../../helpers/iconMapper";
 import checkDayAndNight from '../../helpers/checkDayAndNight';
+
 
 function WeatherDetail( { temp, type, description, time } ) {
 
-    const [ interval, setInterval ] = useState( false )
+    const { kelvinToMetric } = useContext(TempContext)
 
+    const [ interval, setInterval ] = useState( false )
 
     useEffect( () => {
         setInterval( checkDayAndNight(time) )
@@ -22,7 +25,7 @@ function WeatherDetail( { temp, type, description, time } ) {
                             { iconMapper( type, interval ) }
                         </span>
             <p className="description">{ description }</p>
-            <p>{ temp }</p>
+            <p>{ kelvinToMetric(temp) }</p>
             <p>{ interval }</p>
         </section>
     </>)

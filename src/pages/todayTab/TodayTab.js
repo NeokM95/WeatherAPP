@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import './TodayTab.css';
 import axios from "axios";
 import WeatherDetail from "../../components/weatherDetail/WeatherDetail";
-import kelvinToCelsius from "../../helpers/kelvinToCelsius";
 import createTimeString from "../../helpers/createTimeString";
 
 // const apiKey = "914980b7d82b6962c87c98bb639aeed3"
@@ -62,7 +61,7 @@ function TodayTab( { coordinates } ) {
                 { hourlyForecasts.map( ( forecast ) => {
                     return <WeatherDetail
                         key={ forecast.dt }
-                        temp={ kelvinToCelsius(forecast.temp) }
+                        temp={ forecast.temp }
                         type={ forecast.weather[0].main }
                         time={ forecast.dt }
                         description={ forecast.weather[0].description }

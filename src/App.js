@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { TempContext } from './context/TempProvider';
 import axios from 'axios';
 import {
     BrowserRouter as Router,
@@ -12,17 +13,19 @@ import MetricSlider from './components/metricSlider/MetricSlider';
 import ForecastTab from "./pages/forecastTab/ForecastTab";
 import TodayTab from "./pages/todayTab/TodayTab";
 
-import kelvinToCelsius from './helpers/kelvinToCelsius';
-
 import './App.css';
 
-/**
- In principe had ik de API key verplaatst naar `.env`, maar aangezien ik die niet mee push naar github heb ik de apiKey hier achtergelaten mochten jullie de applicatie willen runnen.
+/*
+ In principe had ik de API key verplaatst naar `.env`,
+ maar aangezien ik die niet mee push naar github heb ik de apiKey hier achtergelaten mochten jullie de applicatie willen runnen.
  De Key is ook nodig in de pages `TodayTab.js` en `ForecastTab.js`.
  */
 // const apiKey = "914980b7d82b6962c87c98bb639aeed3"
 
+
 function App() {
+
+    const { kelvinToMetric } = useContext( TempContext );
 
     const [ weatherData, setWeatherData ] = useState( {} )
     const [ location, setLocation ] = useState( '' )
@@ -80,7 +83,7 @@ function App() {
                         <>
                             <h2>{ weatherData.weather[0].description }</h2>
                             <h3>{ weatherData.name } </h3>
-                            <h1>{kelvinToCelsius(weatherData.main.temp) }</h1>
+                            <h1>{kelvinToMetric(weatherData.main.temp) }</h1>
                         </>
                         }
                     </span>
