@@ -16,8 +16,7 @@ import TodayTab from "./pages/todayTab/TodayTab";
 import './App.css';
 
 /*
- In principe had ik de API key verplaatst naar `.env`,
- maar aangezien ik die niet mee push naar github heb ik de apiKey hier achtergelaten mochten jullie de applicatie willen runnen.
+ Ik de apiKey hier achtergelaten mochten jullie de applicatie willen runnen.
  De Key is ook nodig in de pages `TodayTab.js` en `ForecastTab.js`.
  */
 // const apiKey = "914980b7d82b6962c87c98bb639aeed3"
